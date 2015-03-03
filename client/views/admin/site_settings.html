@@ -9,12 +9,12 @@
           <input type="text" id="siteName" name="siteName"  value="{{siteName}}" placeholder="Site Name">
         </div>
 
-        <div class="azimuth-form-section">
-          <label>Site Logo URL</label>
-          <input type="text" id="logoUrl" name="logoUrl"  value="{{logoUrl}}" placeholder="Logo URL">
-        </div>
+          <div class="azimuth-form-section">
+              <label>Supported languages (comma separated list)</label>
+              <input type="text" id="supportedLanguages" name="supportedLanguages"  value="{{supportedLanguages}}" placeholder="Supported languages">
+          </div>
 
-        <div class="azimuth-form-section">
+          <div class="azimuth-form-section">
           <label>Site Index Page</label>
           <select name="indexPage" id="indexPage">
             {{#each allPages}}
