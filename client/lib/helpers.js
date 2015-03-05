@@ -15,6 +15,11 @@ UI.registerHelper('formHelper', function () {
     this.uniqueId = this.fieldName + '_' + Math.random().toString(36).substring(7);
   // FIXME: Return error if type not valid template
   // return Template[this.type].withData(this);
+  if(this.language != "") {
+      this.fieldName = this.fieldName + "[" + this.language +"]";
+      if (this.value != undefined)
+        this.value = this.value[this.language];
+  }
   return Template[this.type];
 });
 // Get a human readable time from a timestamp
@@ -73,4 +78,22 @@ UI.registerHelper('signedInAs', function () {
   } else {
     return false;
   }
+});
+
+Handlebars.registerHelper("_t", function(input, lang) {
+
+    var language = typeof lang == "string" ? lang : Session.get("language");
+    if (input != undefined && typeof(input) == "object") {
+        return language ? input[language] : input + "." + Azimuth.utils.getLanguages()[0];
+    }
+    else
+        return input
+});
+
+Handlebars.registerHelper("jsonToString", function(object) {
+
+    if (typeof object == "object")
+        return JSON.stringify(object)
+    else
+        return object
 });

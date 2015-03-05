@@ -34,7 +34,7 @@
         <h3>Add Link</h3>
       </div>
       <div class="modal-body">
-        <form>
+        <form  class="link-add-form">
           <h5>Existing Page</h5>
           <select id="existingPage" placeholder="Select an existing page">
             <option>Select an existing page</option>
@@ -45,9 +45,8 @@
           <br />
           <h5>Custom URL</h5>
           <label>URL</label>
-          <input type="text" class="form-control link-url" value=''>
-          <label>Title</label>
-          <input type="text" class="form-control link-title" value=''>
+          <input type="text" name="url" class="form-control link-url" value=''>
+          {{> navigation_title}}
         </form>
       </div>
       <div class="azimuth-buttons clear">
@@ -64,15 +63,14 @@
         <h3>Edit Link</h3>
       </div>
       <div class="modal-body">
-        <form>
+        <form  class="link-edit-form">
           <div class="form-group">
             <h4>Need to populate with link values</h4>
             <label>URL</label>
-            <input type="text" class="form-control link-url" value=''>
+            <input type="text" name="url" class="form-control link-url" value=''>
           </div>
           <div class="form-group">
-            <label>Title</label>
-            <input type="text" class="form-control link-title" value=''>
+             {{> navigation_title}}
           </div>
         </form>
       </div>
@@ -102,19 +100,16 @@
 
 </template>
 
+<template name="navigation_title">
+    {{# each languages}}
+        <label>Title {{this}}</label>
+        <input type="text" class="form-control link-title {{this}}" name="title[{{this}}]" placeholder="Navigation Title {{this}}" value='{{../title.nl}}'>
+    {{/each}}
+</template>
 <template name="navigation_root">
   <ol class="dd-list">
     {{#each this}}
-      {{#if children}}
-        <li class="dd-item" data-url="{{url}}" data-title="{{title}}" data-id="{{_id}}">
-          <div class="dd-handle">{{title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
-            {{>navigation_child}}
-        </li>
-      {{else}}
-        <li class="dd-item" data-url="{{url}}" data-title="{{title}}" data-id="{{_id}}">
-          <div class="dd-handle">{{title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
-        </li>
-      {{/if}}
+        {{>navigation_li}}
     {{/each}}
   </ol>
 </template>
@@ -122,18 +117,31 @@
 <template name="navigation_child">
   <ol class="dd-list">
     {{#each children}}
-      {{#if children}}
-        <li class="dd-item" data-url="{{url}}" data-title="{{title}}" data-id="{{_id}}">
-          <div class="dd-handle">{{title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
-            {{>navigation_child}}
-        </li>
-      {{else}}
-        {{#with child}}
-        <li class="dd-item" data-url="{{url}}" data-title="{{title}}" data-id="{{_id}}">
-          <div class="dd-handle">{{title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
-        </li>
-        {{/with}}
-      {{/if}}
+        {{#if children}}
+            <li class="dd-item" data-url="{{url}}" data-title="{{jsonToString title}}" data-id="{{_id}}">
+                <div class="dd-handle">{{_t title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
+                {{>navigation_child}}
+            </li>
+        {{else}}
+            {{#with child}}
+                <li class="dd-item" data-url="{{url}}" data-title="{{jsonToString title}}" data-id="{{_id}}">
+                    <div class="dd-handle">{{_t title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
+                </li>
+            {{/with}}
+        {{/if}}
     {{/each}}
   </ol>
+</template>
+
+<template name="navigation_li">
+    {{#if children}}
+        <li class="dd-item" data-url="{{url}}" data-title="{{jsonToString title}}" data-id="{{_id}}">
+            <div class="dd-handle">{{_t title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
+            {{>navigation_child}}
+        </li>
+    {{else}}
+        <li class="dd-item" data-url="{{url}}" data-title="{{jsonToString title}}" data-id="{{_id}}">
+            <div class="dd-handle">{{_t title}}</div><div class="edit-link-container"><a href="#" class="edit-link"><i class='icon icon-document-edit'></i></a></div><div class="edit-link-container"><a href="#" class="delete-link"><i class='icon icon-cross'></i></a></div>
+        </li>
+    {{/if}}
 </template>

@@ -48,7 +48,7 @@
         {{> tag tags=currentBlockTags}}
 
         {{#each blockFields}}
-          {{> formHelper value=this.value type=this.type label=this.label fieldName=this.name }}
+            {{>blockField}}
         {{/each}}
 
         <div class="azimuth-buttons clear">
@@ -74,4 +74,13 @@
     </div>
     <div class="azimuth-modal-bg close"></div>
   </div>
+</template>
+<template name="blockField">
+        {{#each languages}}
+            {{> blockFieldForm field=.. language=this}}
+        {{/each}}
+</template>
+<template name="blockFieldForm">
+    {{field.name}}
+    {{> formHelper value=this.field.value type=this.field.type label=this.field.label fieldName=this.field.name language=this.language }}
 </template>

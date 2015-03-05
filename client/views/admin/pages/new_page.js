@@ -8,14 +8,17 @@
 //
 // Event handlers for creating a new page.
 //
-
 Template.new_page.events = {
   'click .submit': function (e) {
     e.preventDefault();
-    var rawTitle = $('.new-page-title').val();
+    var rawTitle = {};
+    var languages = Azimuth.utils.getLanguages();
+    languages.map(function(language) {
+        rawTitle[language] = $('.new-page-title.' + language).val();
+    })
     var rawSlug = $('.new-page-slug').val();
     // Validate input
-    if (rawTitle == '' || rawSlug == '') {
+    if (_.has(rawTitle, '') || rawSlug == '') {
       noty({
         text: 'Please enter values for all fields.',
         type: 'error'
@@ -28,7 +31,7 @@ Template.new_page.events = {
       template: 'page_default',
       meta: [{
         key: 'title',
-        value: rawTitle
+        value: rawTitle[languages[0]]
       }]
     });
     // Add to navigation
@@ -48,9 +51,18 @@ Template.new_page.events = {
     Router.go('/' + rawSlug);
     Azimuth.adminPanel.hide();
   },
-  'keyup .new-page-title': function () {
-    var rawTitle = $('.new-page-title').val();
-    rawTitle = rawTitle.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-    $('.new-page-slug').val(rawTitle);
+  'keyup .new-page-title': function (e) {
+    var defaultLanguage = Azimuth.utils.getLanguages()[0];
+    if ($(e.target).hasClass(defaultLanguage)) {
+        var rawTitle = $(e.target).val();
+        rawTitle = rawTitle.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        $('.new-page-slug').val(rawTitle);
+    }
   }
 };
+
+Template.page_title.helpers ({
+    languages: function() {
+        return Azimuth.utils.getLanguages();
+    }
+});

@@ -14,10 +14,22 @@ Template.twelve_column = Template.twelve_column || {};
 Template.twelve_column.label = '12 Column Block';
 Template.twelve_column.description = 'A basic content block that takes up a full row';
 var fields = [{
-      name: 'contents',
-      type: 'wysiwyg',
-      label: 'Contents',
-      multiLanguages: true
+    name: 'contents',
+    type: 'text',
+    label: 'Contents',
+    multiLanguages: true
+    },
+    {
+    name: 'title',
+    type: 'text',
+    label: 'Title',
+    multiLanguages: false
+    },
+    {
+        name: 'wcontents',
+        type: 'wysiwyg',
+        label: 'html description',
+        multiLanguages: true
     }];
 // This important method hooks the template into the CMS
 Azimuth.registry.blockTemplate({

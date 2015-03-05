@@ -17,7 +17,6 @@ Template.block_edit.events = {
   'change .block-template-selector': function (e) {
     var template = $(e.currentTarget).val();
     // Get template's fields from block registry
-    debugger;
     Session.set('blockFields', Azimuth.registry.blockTemplates[template].fields);
     Session.set('addBlock', false);
     Azimuth.adminPanel.blockEdit.settings.template = template;
@@ -139,6 +138,7 @@ Template.block_edit.events = {
       }
     }
     Azimuth.adminPanel.hide();
+    Tracker.flush();
   }
 };
 Template.block_edit.helpers ({
@@ -170,3 +170,21 @@ Template.block_edit.helpers ({
             return '';
     }
 });
+
+Template.blockField.helpers ({
+    languages: function() {
+        if (this.multiLanguages)
+            return Azimuth.collections.Settings.findOne().languages.split(",");
+        else
+            return [""]
+    }
+});
+
+Template.blockFieldForm.helpers ({
+    fieldName: function() {
+        if(this.language != "")
+            return this.field.name + "." + this.language;
+        else
+            return this.field.name;
+    }
+})

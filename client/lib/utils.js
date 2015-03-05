@@ -41,7 +41,8 @@ Azimuth.utils.getCurrentPage = function () {
 Azimuth.utils.getFormValues = function (selector) {
   var values = {};
   // Turn form into array and handle special cases
-  $.each($(selector).serializeArray(), function (i, field) {
+  values = $(selector).serializeJSON();
+  $.each(values, function (i, field) {
     // if (field.name == 'tags') field.value = field.value.split(',');
     if (field.value == 'on')
       field.value = true;
@@ -50,6 +51,7 @@ Azimuth.utils.getFormValues = function (selector) {
   $.each($(selector).find(':checkbox:not(:checked)'), function (i, field) {
     values[field.name] = false;
   });
+  debugger;
   return values;
 };
 Azimuth.utils.displayHumanReadableTime = function (timestamp) {
@@ -184,3 +186,6 @@ Azimuth.utils.renderBlock = function (block) {
     console.log('Block not found (or has no template specified)');
   }
 };
+Azimuth.utils.getLanguages = function() {
+    return Azimuth.collections.Settings.findOne().languages.split(",")
+}

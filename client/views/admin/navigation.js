@@ -36,6 +36,7 @@ Template.navigation.rendered = function () {
         return childIds;
       }
       var links = $('#navigation-' + location).nestable('serialize');
+      debugger;
       // Set root attribute to true for root links
       _.map(links, function(link){ link.root = true; return link });
       // Remove all links and then re-add
@@ -60,7 +61,7 @@ Template.navigation.rendered = function () {
 Template.navigation.events = {
   'click .add-link': function (e) {
     e.preventDefault();
-    Session.set('link-location', $(e.currentTarget).next('.dd').attr('id'));
+    Session.set('link-location', $(e.currentTarget).next('.dd').attr('id').replace("navigation-",""));
     // Clear modal form elements
     $('#addLinkModal').find('.form-control').val('');
     $("#addLinkModal").find('select').each(function() {
@@ -74,23 +75,13 @@ Template.navigation.events = {
     e.preventDefault();
     var linkLocation = Session.get('link-location'),
         existingPage = $('#addLinkModal').find('#existingPage').val(),
-        newUrl = $('#addLinkModal').find('.link-url').val(),
-        newTitle = $('#addLinkModal').find('.link-title').val();
-    if (linkLocation && existingPage) {
-      var page = Azimuth.collections.Pages.findOne({ slug: existingPage });
-      Azimuth.collections.Navigation.insert({
-        location: linkLocation,
-        title: page.label,
-        url: '/' + page.slug,
-        root: true
-      });
-    } else if (linkLocation && newUrl && newTitle) {
-      Azimuth.collections.Navigation.insert({
-        location: linkLocation,
-        title: newTitle,
-        url: newUrl,
-        root: true
-      });
+        linkData = Azimuth.utils.getFormValues('.link-add-form');
+        debugger;
+    if (linkLocation && !_.has(linkData, '')) {
+        linkData.location = linkLocation;
+        linkData.root = true;
+        linkData.url = "/" + linkData.url;
+        Azimuth.collections.Navigation.insert(linkData);
     } else {
       noty({
         text: 'Please make sure all fields are filled.',
@@ -100,21 +91,36 @@ Template.navigation.events = {
     }
     Azimuth.utils.closeModal('#addLinkModal');
   },
+    'change #existingPage': function(e) {
+        console.log("changed!");
+        page = Azimuth.collections.Pages.findOne({slug: e.target.value});
+        $("#addLinkModal").find('.link-url').val(page.slug);
+        Azimuth.utils.getLanguages().map(function(language) {
+            $("#addLinkModal").find('.link-title.' + language).val(page.label[language]);
+        });
+
+  },
   'click .edit-link': function (e) {
     e.preventDefault();
     Session.set('linkId', this._id);
     var link = Azimuth.collections.Navigation.findOne(this._id);
     $("#editLinkModal").find('.link-url').val(link.url);
-    $("#editLinkModal").find('.link-title').val(link.title);
+    Azimuth.utils.getLanguages().map(function(language) {
+        if (typeof link.title == "object")
+            $("#editLinkModal").find('.link-title.' + language).val(link.title[language]);
+        else
+            $("#editLinkModal").find('.link-title.' + language).val(link.title);
+
+    })
     Azimuth.utils.openModal('#editLinkModal');
   },
   'click .edit-link-confirm': function (e) {
     e.preventDefault();
     var linkId = Session.get('linkId'),
-        newUrl = $("#editLinkModal").find('.link-url').val(),
-        newTitle = $("#editLinkModal").find('.link-title').val();
-    if (linkId && newUrl && newTitle) {
-      Azimuth.collections.Navigation.update(linkId, { $set: { url: newUrl, title: newTitle } });
+        linkData = Azimuth.utils.getFormValues('.link-edit-form');
+    if (linkId && !_.has(linkData, '')) {
+      Azimuth.collections.Navigation.update(linkId, { $set: linkData });
+      debugger;
     } else {
       noty({
         text: 'Please make sure all fields are filled.',
@@ -148,10 +154,7 @@ Template.navigation.events = {
 Template.navigation.helpers ({
     headerNav: function () {
         return Azimuth.collections.Navigation.find({ location: 'header', root: true });
-    }
-});
-
-Template.navigation.helpers ({
+    },
     footerNav: function () {
         return Azimuth.collections.Navigation.find({location: 'footer'});
     },
@@ -166,3 +169,10 @@ Template.navigation_child.helpers({
         return Azimuth.collections.Navigation.findOne(navId);
     }
 });
+
+Template.navigation_title.helpers ({
+    languages: function() {
+        return Azimuth.utils.getLanguages();
+    }
+});
+
