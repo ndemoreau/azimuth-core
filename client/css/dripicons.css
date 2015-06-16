@@ -3,11 +3,11 @@
 
 @font-face {
   font-family: "dripicons";
-  src:url("/packages/mcrider_azimuth-core/client/css/fonts/dripicons/dripicons.eot");
-  src:url("/packages/mcrider_azimuth-core/client/css/fonts/dripicons/dripicons.eot?#iefix") format("embedded-opentype"),
-    url("/packages/mcrider_azimuth-core/client/css/fonts/dripicons/dripicons.ttf") format("truetype"),
-    url("/packages/mcrider_azimuth-core/client/css/fonts/dripicons/dripicons.svg#dripicons") format("svg"),
-    url("/packages/mcrider_azimuth-core/client/css/fonts/dripicons/dripicons.woff") format("woff");
+  src:url("/packages/ndemoreau_azimulti-core/client/css/fonts/dripicons/dripicons.eot");
+  src:url("/packages/ndemoreau_azimulti-core/client/css/fonts/dripicons/dripicons.eot?#iefix") format("embedded-opentype"),
+    url("/packages/ndemoreau_azimulti-core/client/css/fonts/dripicons/dripicons.ttf") format("truetype"),
+    url("/packages/ndemoreau_azimulti-core/client/css/fonts/dripicons/dripicons.svg#dripicons") format("svg"),
+    url("/packages/ndemoreau_azimulti-core/client/css/fonts/dripicons/dripicons.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 

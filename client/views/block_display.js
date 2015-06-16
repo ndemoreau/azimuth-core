@@ -9,6 +9,9 @@
 // Handles the display and entry point of editing functions for blocks.
 //
 
+Template.block_display.created = function () {
+  //this.blockData = new ReactiveVar({})
+}
 Template.block_display.helpers({
   blockData: function (zone) {
     var blockData = {},
@@ -44,6 +47,7 @@ Template.block_display.helpers({
       }).count() / limit) : false;
     blockData.numSets = numSets > 1 ? _.range(1, numSets + 1) : false;
     blockData.zone = zone;
+    //Session.set("blockData", blockData);
     return blockData;
   },
   currentBlockPage: function (data) {
@@ -83,7 +87,6 @@ Template.block_display.events = {
   },
   // Edit a block zone's settings
   'click .block-zone-edit': function (e) {
-    debugger;
     e.stopPropagation();
     var zone = $(e.currentTarget).closest('.azimuth-block-zone').data('zone');
     Azimuth.adminPanel.blockEdit.reset({zone: zone});

@@ -4,36 +4,38 @@
 //  \ \_\ \_\   /\_____\  \ \_\  \ \_\ \ \_\  \ \_____\    \ \_\  \ \_\ \_\
 //   \/_/\/_/   \/_____/   \/_/   \/_/  \/_/   \/_____/     \/_/   \/_/\/_/
 //
-// azimuth-core/client/blocks/twelve_column/twelve_column.js
+// azimuth-core/client/blocks/block_with_title/block_with_title.js
 //
 // Metadata and settings definition for the twelve column block template.
 // The HTML for this template can be found in the respective directory in the view package.
 //
 
-Template.twelve_column = Template.twelve_column || {};
-Template.twelve_column.label = '12 Column Block';
-Template.twelve_column.description = 'A basic content block that takes up a full row';
-var fields = [{
-    name: 'contents',
-    type: 'text',
-    label: 'Contents',
-    multiLanguages: true
+Template.block_with_title = Template.block_with_title || {};
+Template.block_with_title.label = 'Block with tile';
+Template.block_with_title.description = 'A basic content block with a title';
+var fields = [
+    {
+        name: 'columns',
+        type: 'text',
+        label: 'Nbr columns',
+        value: "12"
     },
     {
     name: 'title',
     type: 'text',
     label: 'Title',
-    multiLanguages: false
+    multiLanguages: true
     },
     {
-        name: 'wcontents',
+        name: 'contents',
         type: 'wysiwyg',
-        label: 'html description',
+        label: 'Contents',
         multiLanguages: true
-    }];
+    },
+    ];
 // This important method hooks the template into the CMS
 Azimuth.registry.blockTemplate({
-  name: 'twelve_column',
-  label: '12 Column Block',
+  name: 'block_with_title',
+  label: 'Block with title',
   fields: fields
 });

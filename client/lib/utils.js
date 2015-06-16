@@ -51,7 +51,6 @@ Azimuth.utils.getFormValues = function (selector) {
   $.each($(selector).find(':checkbox:not(:checked)'), function (i, field) {
     values[field.name] = false;
   });
-  debugger;
   return values;
 };
 Azimuth.utils.displayHumanReadableTime = function (timestamp) {
@@ -188,4 +187,14 @@ Azimuth.utils.renderBlock = function (block) {
 };
 Azimuth.utils.getLanguages = function() {
     return Azimuth.collections.Settings.findOne().languages.split(",")
+}
+Azimuth.utils.setLanguage = function(language) {
+    TAPi18n.setLanguage(language)
+        .done(function () {
+            Session.set("language",language);
+            console.log("Language set");
+
+        })
+        .fail(function (error) {console.log(error)});
+
 }

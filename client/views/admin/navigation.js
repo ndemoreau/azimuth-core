@@ -36,7 +36,6 @@ Template.navigation.rendered = function () {
         return childIds;
       }
       var links = $('#navigation-' + location).nestable('serialize');
-      debugger;
       // Set root attribute to true for root links
       _.map(links, function(link){ link.root = true; return link });
       // Remove all links and then re-add

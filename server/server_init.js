@@ -117,9 +117,9 @@ Meteor.startup(function () {
   if (!Blocks.find().count()) {
     // Insert a default block
     Blocks.insert({
-      template: 'twelve_column',
+      template: 'block_with_title',
       tag: ['intro-block'],
-      contents: '<div class="centered"><img src="/packages/mcrider_azimuth-core/img/azimuth-logo.png">' +
+      contents: '<div class="centered"><img src="/packages/ndemoreau_azimulti-core/img/azimuth-logo.png">' +
                 '<p style="font-size: 1.6em;"><span class="hi-there" style="font-weight: 500;">Azimuth</span>' +
                 '<br><span class="get-started" style="font-weight: 100;">Simple content management for Meteor.js.</span>' +
                 '</p><p style="font-size: .85em;"><a href="/sign-up">Create an account</a> to get started ' +

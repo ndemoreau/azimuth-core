@@ -11,6 +11,7 @@
 //
 
 // Global configuration
+var animationIn = "slideInRight", animationOut = "fadeOut";
 Router.configure({
   layoutTemplate: 'layout',
   notFoundTemplate: '404',
@@ -20,6 +21,13 @@ Router.configure({
     'admin_panel': { to: 'admin_panel' }
   }
 });
+Router.onBeforeAction(function() {
+  "loading";
+  this.next();
+});
+Router.onRun(function() {
+  this.next();
+})
 Router.onAfterAction(function() {
   // Set page metadata
   var page = Azimuth.utils.getCurrentPage();
@@ -116,8 +124,40 @@ Router.map(function () {
       Meteor.subscribe('blocks'),
       Meteor.subscribe('pageBlocks'),
       Meteor.subscribe('userData'),
-      Meteor.subscribe('assets')
+      Meteor.subscribe('assets'),
+      subs.subscribe("webIds", Session.get("language"))
       ];
+    },
+    data: function() {
+      if (this.ready()) {
+        return {
+          animationIn: function () { return animationIn;},
+          currentRoot: function () {
+            this_nav = Azimuth.collections.Navigation.findOne({url: "/" + Router.current().params.page});
+            return Azimuth.collections.Navigation.findOne({children: {$in: this_nav._id}});
+          },
+          siblings: function() {
+            this_nav = Azimuth.collections.Navigation.findOne({
+              location: "header",
+              url: "/" + Router.current().params.page
+            });
+            if (this_nav.root) {
+              root = this_nav
+            }
+            else
+            {
+              root = Azimuth.collections.Navigation.findOne({location: "header",children: this_nav._id});
+            }
+            if(root) {
+              var children = root.children || [];
+              return Azimuth.collections.Navigation.find({_id: {$in: children}});
+            }
+          },
+          hasChildren: function() {
+            return this.siblings || false;
+          }
+        }
+      }
     },
     action: function() {
       if (this.ready()) {
@@ -132,6 +172,13 @@ Router.map(function () {
         }
         this.template = page.template;
         this.render(page.template);
+
+        $("#page").removeClass(animationIn).addClass("hidden");
+        setTimeout(function() {
+          if(!$("#page").hasClass("fadeIn")){
+           $("#page").removeClass("hidden").addClass(animationIn);
+          }
+        }, 0)
       }
     }
   });

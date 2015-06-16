@@ -9,6 +9,9 @@
 // Handles the rendering of a group of blocks (by tag or template)
 //
 
-Template.block_set.renderBlock = function () {
-  return Azimuth.utils.renderBlock(this);
-}
+Template.block_set.helpers({
+    renderBlock: function () {
+      debugger;
+      return Azimuth.utils.renderBlock(this);
+    }
+})

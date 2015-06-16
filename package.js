@@ -1,8 +1,8 @@
 Package.describe({
-  name: 'mcrider:azimuth-core',
-  summary: 'Azimuth CMS core code',
-  version: '0.3.21',
-  git: 'https://github.com/mcrider/azimuth-core/ '
+  name: 'ndemoreau:azimulti-core',
+  summary: 'Azimuth multilangual CMS core code',
+  version: '0.4.1',
+  //git: 'https://github.com/ndemoreau/azimuth-core/ '
 });
 
 
@@ -55,10 +55,12 @@ Package.on_use(function (api) {
   api.add_files('client/css/fonts/raleway/raleway-bold.svg', 'client');
   api.add_files('client/css/fonts/raleway/raleway-bold.ttf', 'client');
   api.add_files('client/css/fonts/raleway/raleway-bold.woff', 'client');
+  api.add_files('client/blocks/ten_column/ten_column.js', 'client');
+  api.add_files('client/blocks/eight_column/eight_column.js', 'client');
   api.add_files('client/blocks/four_column/four_column.js', 'client');
   api.add_files('client/blocks/six_column/six_column.js', 'client');
   api.add_files('client/blocks/three_column/three_column.js', 'client');
-  api.add_files('client/blocks/twelve_column/twelve_column.js', 'client');
+  api.add_files('client/blocks/block_with_title/block_with_title.js', 'client');
   api.add_files('client/blocks/two_column/two_column.js', 'client');
   api.add_files('client/pages/home_page/home_page.js', 'client');
   api.add_files('client/pages/page_default/page_default.js', 'client');

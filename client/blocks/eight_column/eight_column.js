@@ -10,9 +10,9 @@
 // The HTML for this template can be found in the respective directory in the view package.
 //
 
-Template.four_column = Template.four_column || {};
-Template.four_column.label = '4 Column Block';
-Template.four_column.description = 'A basic content block that takes up 1/3 of a row';
+Template.eight_column = Template.eight_column || {};
+Template.eight_column.label = '8 Column Block';
+Template.eight_column.description = 'A basic content block that takes up 2/3 of a row';
 var fields = [{
       name: 'contents',
       type: 'wysiwyg',
@@ -21,7 +21,7 @@ var fields = [{
     }];
 // This important method hooks the template into the CMS
 Azimuth.registry.blockTemplate({
-  name: 'four_column',
-  label: '4 Column Block',
+  name: 'eight_column',
+  label: '8 Column Block',
   fields: fields
 });

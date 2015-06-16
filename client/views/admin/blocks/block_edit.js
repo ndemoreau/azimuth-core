@@ -18,7 +18,7 @@ Template.block_edit.events = {
     var template = $(e.currentTarget).val();
     // Get template's fields from block registry
     Session.set('blockFields', Azimuth.registry.blockTemplates[template].fields);
-    Session.set('addBlock', false);
+    Session.set('addBlock', true);
     Azimuth.adminPanel.blockEdit.settings.template = template;
   },
   'change .block-tag-selector': function (e) {
@@ -125,7 +125,13 @@ Template.block_edit.events = {
       if (block) {
         var blockData = Azimuth.utils.getFormValues('.block-edit-form');
         blockData.tag = blockData.tag ? blockData.tag.replace(/^\s+|\s+$/g, '').split(/\s*,\s*/) : '';
-        Azimuth.collections.Blocks.update({ _id: block._id }, { $set: blockData });
+        Azimuth.collections.Blocks.update({ _id: block._id }, { $set: blockData }, function (e, r) {
+            debugger;
+            _.map(document.getElementsByClassName(block._id), function(blockID) {
+                $("." + block._id).html("");
+                Blaze.renderWithData(Template[block.template], blockData, blockID);
+            })
+        });
         noty({
           text: 'Block Saved.',
           type: 'success'
@@ -136,7 +142,10 @@ Template.block_edit.events = {
           type: 'error'
         });
       }
+
     }
+    Session.set("blockData", blockData);
+
     Azimuth.adminPanel.hide();
     Tracker.flush();
   }

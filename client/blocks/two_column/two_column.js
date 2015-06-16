@@ -16,7 +16,8 @@ Template.two_column.description = 'A basic content block that takes up a sixth o
 var fields = [{
       name: 'contents',
       type: 'wysiwyg',
-      label: 'Contents'
+      label: 'Contents',
+      multiLanguages: true
     }];
 // This important method hooks the template into the CMS
 Azimuth.registry.blockTemplate({
